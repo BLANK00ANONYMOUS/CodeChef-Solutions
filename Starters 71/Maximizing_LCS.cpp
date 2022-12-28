@@ -37,7 +37,49 @@ int ceil_div(int a, int b) {
     
     
 void solve() {
-    
+    int len;
+    cin >> len;
+
+    string s;
+    cin >> s;
+
+    string temp = s;
+    reverse(temp.begin(), temp.end());
+
+    int m = s.length(), n = temp.length();
+ 
+    int lookup[m + 1][n + 1];
+ 
+ 
+    for (int i = 0; i <= m; i++) {
+        lookup[i][0] = 0;
+    }
+ 
+ 
+    for (int j = 0; j <= n; j++) {
+        lookup[0][j] = 0;
+    }
+ 
+ 
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (s[i - 1] == temp[j - 1]) {
+                lookup[i][j] = lookup[i - 1][j - 1] + 1;
+            } else  {
+                lookup[i][j] = max(lookup[i - 1][j], lookup[i][j - 1]);
+            }
+        }
+    }
+
+    int res = 0;
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (i + j == len) {
+                res = max(res, lookup[i][j]);
+            }
+        }
+    }
+    cout << res << endl;
 }
     
 int32_t main() {
